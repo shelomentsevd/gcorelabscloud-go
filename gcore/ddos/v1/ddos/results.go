@@ -2,6 +2,7 @@ package ddos
 
 import (
 	"fmt"
+	"strconv"
 
 	gcorecloud "github.com/G-Core/gcorelabscloud-go"
 	"github.com/G-Core/gcorelabscloud-go/gcore/task/v1/tasks"
@@ -197,7 +198,7 @@ func ExtractProfilesInto(r pagination.Page, v interface{}) error {
 }
 
 type ProfileTaskResult struct {
-	Profiles []string `json:"ddos_profiles"`
+	Profiles []int `json:"ddos_profiles" mapstructure:"ddos_profiles"`
 }
 
 func ExtractProfileIDFromTask(task *tasks.Task) (string, error) {
@@ -211,5 +212,5 @@ func ExtractProfileIDFromTask(task *tasks.Task) (string, error) {
 		return "", fmt.Errorf("cannot decode DDoS protection profile ID in task structure: %w", err)
 	}
 
-	return result.Profiles[0], nil
+	return strconv.Itoa(result.Profiles[0]), nil
 }
